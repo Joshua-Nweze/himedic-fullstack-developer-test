@@ -5,6 +5,7 @@ import { configDotenv } from "dotenv";
 import cors from 'cors'
 
 import bookRoutes from './routes/book.routes.js'
+import userRoutes from './routes/user.routes.js'
 
 configDotenv()
 
@@ -21,6 +22,7 @@ app.use(cors({
 }))
 
 app.use('/api/book', bookRoutes)
+app.use('/api/user', userRoutes)
 
 // validate token
 

@@ -22,7 +22,7 @@ async function createBook(req, res) {
         if (error.name === 'ValidationError') {
             res.status(400).json({ msg: getErrorMsg(error.errors) });
         } else {
-            res.status(500).json({ msg: "Something went wrong, try again later." + error });
+            res.status(500).json({ msg: "Something went wrong, try again later." });
         }
     }
 };
@@ -32,7 +32,7 @@ async function getAllBooks(req, res) {
         const books = await Book.find();
         res.json({ msg: books });
     } catch (error) {
-        res.status(500).json({ msg: "Something went wrong, try again later." + error });
+        res.status(500).json({ msg: "Something went wrong, try again later."  });
     }
 };
 
