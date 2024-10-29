@@ -1,11 +1,23 @@
 import Book from "../models/book.model.js";
 import getErrorMsg from "../utils/getErrorMsg.js";
+import fs from 'fs'
 
 async function createBook(req, res) {
     try {
         const newBook = new Book(req.body);
+
+        if (req.file) {
+            let thumbnailPath = req.file.path
+
+            const imageBuffer = fs.readFileSync(thumbnailPath);
+            // Encode the image buffer as a Base64 string
+            const imageBase64 = imageBuffer.toString('base64');
+
+            newBook.thumbnail = imageBase64;
+        }
+        
         const savedBook = await newBook.save();
-        res.status(201).json({ msg: 'Book created successfully' });
+        res.status(201).json({ msg: 'Book created successfully'});
     } catch (error) {
         if (error.name === 'ValidationError') {
             res.status(400).json({ msg: getErrorMsg(error.errors) });

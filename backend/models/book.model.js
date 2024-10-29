@@ -18,10 +18,10 @@ const bookSchema = new mongoose.Schema({
     type: String, 
     required: [true, 'Published date is required.'] 
   },
-  // thumbnail: { 
-  //   type: String, 
-  //   required: [true, 'Thumbnail is required.'] 
-  // },
+  thumbnail: { 
+    type: String, 
+    required: [true, 'Thumbnail is required.'] 
+  },
 });
 
 const Book = mongoose.model('Book', bookSchema);
