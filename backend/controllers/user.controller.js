@@ -60,7 +60,7 @@ async function login(req, res) {
         );
 
         res.locals.user = user._id;
-        res.status(200).json({ msg: 'Login successful', token });
+        res.status(200).json({ msg: 'Login successful', token, user: user._id });
     } catch (error) {
         res.status(500).json({ msg: 'Something went wrong, try again later.' });
     }
