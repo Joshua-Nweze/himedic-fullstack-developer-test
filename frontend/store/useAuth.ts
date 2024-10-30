@@ -24,7 +24,7 @@ export const useAuthStore = defineStore("auth", {
 
     actions: {
         async createAccount(userData: User) {
-            let req = await fetch("http://localhost:3001/api/user/create", {
+            let req = await fetch("https://himedic-fullstack-developer-test.onrender.com/api/user/create", {
                 method: "POST",
                 body: JSON.stringify(userData),
                 headers: {
@@ -37,7 +37,7 @@ export const useAuthStore = defineStore("auth", {
         },
 
         async login(userData: LoginDetails) {
-            let req = await fetch("http://localhost:3001/api/user/login", {
+            let req = await fetch("https://himedic-fullstack-developer-test.onrender.com/api/user/login", {
                 method: "POST",
                 body: JSON.stringify(userData),
                 headers: {
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore("auth", {
         async validateToken(token: string) {
             console.log(1);
             console.log(token);
-            let req = await fetch("http://localhost:3001/api/validate-token", {
+            let req = await fetch("https://himedic-fullstack-developer-test.onrender.com/api/validate-token", {
                 method: "POST",
                 headers: {
                     Authorization: `Brearer ${token}`,

@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (token) {
         try {
-            const req = await fetch('http://localhost:3001/api/validate-token', {
+            const req = await fetch('https://himedic-fullstack-developer-test.onrender.com/api/validate-token', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

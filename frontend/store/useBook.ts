@@ -31,7 +31,7 @@ export const useBookStore = defineStore("book", {
         },
 
         async uploadBook(bookData: any) {
-            let req = await fetch(`http://localhost:3001/api/book/create`, {
+            let req = await fetch(`https://himedic-fullstack-developer-test.onrender.com/api/book/create`, {
                 method: "POST",
                 body: bookData,
             });
@@ -48,7 +48,7 @@ export const useBookStore = defineStore("book", {
         },
 
         async getMyBooks() {
-            let req = await fetch(`http://localhost:3001/api/book/userbooks/${user}`)
+            let req = await fetch(`https://himedic-fullstack-developer-test.onrender.com/api/book/userbooks/${user}`)
             let res = await req.json()
 
             this.myBooks = res.msg
@@ -59,7 +59,7 @@ export const useBookStore = defineStore("book", {
 
         async updateBook(bookData: any, id: string) {
             console.log(1)
-            let req = await fetch(`http://localhost:3001/api/book/updatebook/${id}`, {
+            let req = await fetch(`https://himedic-fullstack-developer-test.onrender.com/api/book/updatebook/${id}`, {
                 method: "PUT",
                 body: JSON.stringify(bookData),
                 headers: {
@@ -81,7 +81,7 @@ export const useBookStore = defineStore("book", {
 
         async deleteBook(id: string) {
             console.log('deleting')
-            let req = await fetch(`http://localhost:3001/api/book/delete/${id}`, {
+            let req = await fetch(`https://himedic-fullstack-developer-test.onrender.com/api/book/delete/${id}`, {
                 method: "DELETE",
             });
 

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
         return { error: "ID parameter is missing from the request" };
     }
 
-    const apiUrl = `http://localhost:3001/api/book/getbook/${id}`;
+    const apiUrl = `https://himedic-fullstack-developer-test.onrender.com/api/book/getbook/${id}`;
 
     try {
         const response = await fetch(apiUrl);
