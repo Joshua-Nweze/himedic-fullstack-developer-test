@@ -64,9 +64,10 @@ export const useBookStore = defineStore("book", {
             });
 
             let res = await req.json();
-            console.log(res);
 
-            this.getMyBooks()
+            if(req.ok) {
+                this.getMyBooks()
+            }
 
             return {
                 msg: res.msg,

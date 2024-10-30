@@ -12,19 +12,19 @@ const bookSchema = new mongoose.Schema({
 	},
 	author: {
 		type: String,
-		required: [true, 'Author name is required.']
+		required: [true, 'All inputs are required.']
 	},
 	genre: {
 		type: String,
-		required: [true, 'Genre is required.']
+		required: [true, 'All inputs are required.']
 	},
 	publishedDate: {
 		type: String,
-		required: [true, 'Published date is required.']
+		required: [true, 'All inputs are required.']
 	},
 	thumbnail: {
 		type: String,
-		required: [true, 'Thumbnail is required.']
+		required: [true, 'All inputs are required.']
 	},
 }, { timestamps: true });
 

@@ -16,7 +16,7 @@
                 <div>Published on {{ book.publishedDate }}</div>
                 <div>Genre: {{ book.genre }}</div>
 
-                <div class="flex gap-5" v-if="book.user == user">
+                <div class="flex gap-5 mt-7" v-if="book.user == user">
                     
                     <Dialog>
                         <DialogTrigger>
@@ -41,7 +41,10 @@
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>
-                    <Button class="text-white bg-red-500" @click="delBook(book._id)" >Delete</Button>
+                    <div>
+                        <Button class="text-white bg-red-500 w-full" v-if="!isDeleting" @click="delBook(book._id)" >Delete</Button>
+                        <Button class="text-white bg-red-500 w-full" v-else >Deleting...</Button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,7 +52,6 @@
         <div v-else>
             Loading..
         </div>
-        {{ route }}
     </NuxtLayout>
 </template>
 
@@ -79,13 +81,18 @@ async function updateMyBook() {
     await updateBook(bookData, id as string)
 }
 
+let isDeleting = ref<boolean>(false)
+
 async function delBook(id: string) {
+    isDeleting.value = true
     await deleteBook(id)
+    isDeleting.value = false
 
     useRouter().push('/books')
 }
 
 let route = useRoute().params
+
 onMounted(async () => {
     setTimeout(async () => {    
         let { data } = await useFetch(`/api/book/getbook/${route.id}`);

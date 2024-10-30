@@ -4,7 +4,7 @@
 
         <div class="grid gap-5 lg:mx-44 mt-10">
 			<Input type="text" placeholder="Book name" v-model="title"/>
-			<Input type="text" placeholder="author name" v-model="author"/>
+			<Input type="text" placeholder="Author name" v-model="author"/>
             <div>
                 <Label for="publishedDate">Published Date</Label>
                 <Input id="publishedDate" type="date" v-model="publishedDate"/>
@@ -26,10 +26,17 @@
 
             <div>
                 <Label for="thumbnail">Thumbnail</Label>
-                <Input id="thumbnail" @change="handleFileChange" type="file" placeholder="Book name" accept=".png,.jpg,.jpeg" v-model="thumbnail" />
+                <Input id="thumbnail" @change="handleFileChange" type="file" placeholder="Book name" accept=".png,.jpg,.jpeg" />
             </div>
 
-            <Button class="bg-blue-500 text-white" @click="upload" > Upload book </Button>
+            <div class="w-full">
+                <Button class="bg-blue-500 text-white w-full" v-if="!loading" @click="upload" > Upload book </Button>
+                <Button class="bg-blue-500 text-white w-full"  v-else> Loading... </Button>
+            </div>
+        </div>
+
+        <div class="fixed right-5 bottom-5" v-if="feedback" >
+            <Alert :status>{{ feedback }}</Alert>
         </div>
     </NuxtLayout>
 </template>
@@ -38,17 +45,6 @@
 import { useAuthStore } from "~/store/useAuth";
 import { useBookStore } from "~/store/useBook";
 import Cookies from "js-cookie";
-import { cn } from "@/lib/utils";
-import {
-    DateFormatter,
-    type DateValue,
-    getLocalTimeZone,
-} from "@internationalized/date";
-import { Calendar as CalendarIcon } from "lucide-vue-next";
-
-const df = new DateFormatter("en-US", {
-    dateStyle: "long",
-});
 
 let { uploadBook } = useBookStore()
 
@@ -82,15 +78,22 @@ const bookGenres: string[] = [
 
 let title = ref<string>("")
 let author = ref<string>("")
-let thumbnail = ref<any>(null)
+let thumbnail = ref<File | null>(null)
 let genre = ref<string>('')
 let publishedDate = ref<string>('');
+
+let loading = ref<boolean>(false)
+let feedback = ref<string | null>(null)
+let status = ref<number | null>(null)
 
 function handleFileChange (event: any) {
     thumbnail.value = event.target.files[0];
 }
 
 async function upload() {
+    feedback.value = status.value = null // hiding the feedback alert
+    loading.value = true
+
     let formData = new FormData();
 
     let user = Cookies.get('user') || ""
@@ -98,12 +101,24 @@ async function upload() {
     formData.append('user', user);
     formData.append('title', title.value);
     formData.append('author', author.value);
-    formData.append('thumbnail', thumbnail.value);
+    formData.append('thumbnail', thumbnail.value as Blob);
     formData.append('genre', genre.value);
     formData.append('publishedDate', publishedDate.value);
 
+    console.log(formData.entries)
+
     let res = await uploadBook(formData)
     console.log(res)
+    
+    loading.value = false
+    
+    feedback.value = res.msg
+    status.value = res.status
+    console.log(feedback.value)
+
+    setTimeout(() => {
+        feedback.value = status.value = null // hiding the feedback alert
+    }, 3000)
 
 }
 </script>
