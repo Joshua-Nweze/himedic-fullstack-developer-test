@@ -18,7 +18,8 @@ export default function checkAuth(req, res, next) {
 						.status(401)
 						.json({ message: "Authentification Failed, try logging in again" })
 				} else {
-					res.locals.user = decodedToken.id
+					res.locals.user = decodedToken.userId
+					console.log(res.locals.user)
 					next()
 				}
 			})

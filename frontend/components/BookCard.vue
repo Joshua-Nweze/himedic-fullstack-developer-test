@@ -1,12 +1,17 @@
 <template>
-    <NuxtLink class="border rounded p-3" :to="`/books/${book[0]._id}`">
-        <img :src="`data:image/png;base64,${book[0]?.thumbnail}`" class="h-80" alt="">
-        <div class="font-bold text-lg" >{{ book[0]?.title }}</div>
-        <div>By {{ book[0]?.author }}</div>
-        <div>Published on {{ book[0]?.publishedDate }}</div>
-        <div>Genre: {{ book[0]?.genre }}</div>
-        <div></div>
-    </NuxtLink>
+    <div v-if="book">
+        <NuxtLink v-for="b in book" class="border rounded p-3" :to="`/books/${b._id}`">
+            <img :src="`data:image/png;base64,${b.thumbnail}`" class="h-80" alt="">
+            <div class="font-bold text-lg" >{{ b.title }}</div>
+            <div>By {{ b.author }}</div>
+            <div>Published on {{ b.publishedDate }}</div>
+            <div>Genre: {{ b.genre }}</div>
+            <div></div>
+        </NuxtLink>
+    </div>
+    <div v-else>
+        Nothing to show
+    </div>
 </template>
 
 <script setup lang="ts">

@@ -2,6 +2,10 @@
 import mongoose from 'mongoose';
 
 const bookSchema = new mongoose.Schema({
+	user: {
+		type: String,
+		required: true
+	},
 	title: {
 		type: String,
 		required: [true, 'Title is required and cannot be empty.']

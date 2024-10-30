@@ -14,7 +14,7 @@ async function createBook(req, res) {
             const imageBase64 = imageBuffer.toString('base64');
 
             newBook.thumbnail = imageBase64;
-        }
+        }       
         
         const savedBook = await newBook.save();
         res.status(201).json({ msg: 'Book created successfully'});
@@ -51,6 +51,7 @@ async function getBookById(req, res) {
 
 async function updateBook(req, res) {
     try {
+        console.log('hit')
         const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (updatedBook) {
             res.status(200).json({ msg: "Book updated", updatedBook })
@@ -66,7 +67,7 @@ async function deleteBook(req, res) {
     try {
         const deletedBook = await Book.findByIdAndDelete(req.params.id);
         if (deletedBook) {
-            res.json({ msg: 'Book deleted' });
+            res.status(200).json({ msg: 'Book deleted' });
         } else {
             res.status(404).json({ msg: 'Book not found' });
         }
@@ -76,10 +77,23 @@ async function deleteBook(req, res) {
     }
 };
 
+async function getUserBooks(req, res) {
+    try {
+        const userBooks = await Book.find({user: req.params.id});
+        console.log('me' + req.params.id)
+        
+        res.status(200).json({ msg: userBooks });
+    } catch (error) {
+        res.status(500).json({ msg: "Something went wrong, try again later." });
+
+    }
+}
+
 export {
     createBook,
     getAllBooks,
     getBookById,
     updateBook,
-    deleteBook
+    deleteBook,
+    getUserBooks
 }

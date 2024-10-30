@@ -51,6 +51,9 @@ export const useAuthStore = defineStore("auth", {
         },
 
         async validateToken(token: string) {
+            try {
+                console.log(1)
+            console.log(token)
             let req = await fetch('http://localhost:3001/api/validate-token', {
                 method: 'POST',
                 headers: {
@@ -58,9 +61,14 @@ export const useAuthStore = defineStore("auth", {
                 }
             })
 
-            let res = await req.json()
+            console.log(2)
 
+            let res = await req.json()
+            console.log(res)
             return res
-        }
+            } catch (error) {
+                console.log(error)
+            }
+        },
     },
 });

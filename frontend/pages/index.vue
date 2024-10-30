@@ -55,6 +55,7 @@ async function logUserIn() {
     
     if (status.value == 200) {
         Cookie.set('token', res.token)
+        Cookie.set('user', res.user)
         useRouter().push('/dashboard') // navigate to dashboard page if login is successful
     } else {
         password.value = "" // clear password input

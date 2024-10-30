@@ -3,27 +3,14 @@
         <div class="text-lg md:text-2xl font-bold">Upload a book</div>
 
         <div class="grid gap-5 lg:mx-44 mt-10">
-			<Input type="text" placeholder="Book name"/>
+			<Input type="text" placeholder="Book name" v-model="title"/>
+			<Input type="text" placeholder="author name" v-model="author"/>
+            <div>
+                <Label for="publishedDate">Published Date</Label>
+                <Input id="publishedDate" type="date" v-model="publishedDate"/>
+            </div>
 
-            <Popover>
-                <PopoverTrigger as-child>
-                    <Button
-                        variant="outline"
-                        :class="
-                            cn('w-full justify-start text-left font-normal', !publishedDate && 'text-muted-foreground')"
-                    >
-                        <CalendarIcon class="mr-2 h-4 w-4" />
-                        {{
-                            publishedDate ? df.format( publishedDate.toDate(getLocalTimeZone())) : "Published date"
-                        }}
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent class="w-auto p-0">
-                    <Calendar v-model="publishedDate" initial-focus />
-                </PopoverContent>
-            </Popover>
-
-			<Select class="bg-white text-black">
+			<Select class="bg-white text-black" v-model="genre">
 				<SelectTrigger class="bg-white text-black">
 					<SelectValue placeholder="Select book genre" />
 				</SelectTrigger>
@@ -39,15 +26,18 @@
 
             <div>
                 <Label for="thumbnail">Thumbnail</Label>
-                <Input id="thumbnail"type="file" placeholder="Book name" accept=".png,.jpg,.jpeg" />
+                <Input id="thumbnail" @change="handleFileChange" type="file" placeholder="Book name" accept=".png,.jpg,.jpeg" v-model="thumbnail" />
             </div>
 
-            <Button class="bg-blue-500 text-white"> Upload book </Button>
+            <Button class="bg-blue-500 text-white" @click="upload" > Upload book </Button>
         </div>
     </NuxtLayout>
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/store/useAuth";
+import { useBookStore } from "~/store/useBook";
+import Cookies from "js-cookie";
 import { cn } from "@/lib/utils";
 import {
     DateFormatter,
@@ -60,34 +50,60 @@ const df = new DateFormatter("en-US", {
     dateStyle: "long",
 });
 
-const publishedDate = ref<DateValue>();
+let { uploadBook } = useBookStore()
 
 const bookGenres: string[] = [
-  "Adventure",
-  "Biography",
-  "Classics",
-  "Comics",
-  "Contemporary",
-  "Crime",
-  "Drama",
-  "Dystopian",
-  "Fantasy",
-  "Graphic Novel",
-  "Historical Fiction",
-  "Horror",
-  "Mystery",
-  "Non-Fiction",
-  "Philosophy",
-  "Poetry",
-  "Psychology",
-  "Romance",
-  "Science Fiction",
-  "Self-Help",
-  "Short Story",
-  "Suspense",
-  "Thriller",
-  "Travel",
-  "Young Adult"
+    "Adventure",
+    "Biography",
+    "Classics",
+    "Comics",
+    "Contemporary",
+    "Crime",
+    "Drama",
+    "Dystopian",
+    "Fantasy",
+    "Graphic Novel",
+    "Historical Fiction",
+    "Horror",
+    "Mystery",
+    "Non-Fiction",
+    "Philosophy",
+    "Poetry",
+    "Psychology",
+    "Romance",
+    "Science Fiction",
+    "Self-Help",
+    "Short Story",
+    "Suspense",
+    "Thriller",
+    "Travel",
+    "Young Adult"
 ];
 
+let title = ref<string>("")
+let author = ref<string>("")
+let thumbnail = ref<any>(null)
+let genre = ref<string>('')
+let publishedDate = ref<string>('');
+
+function handleFileChange (event: any) {
+    thumbnail.value = event.target.files[0];
+}
+
+async function upload() {
+    let formData = new FormData();
+
+    let user = Cookies.get('user') || ""
+
+    formData.append('user', user);
+    formData.append('title', title.value);
+    formData.append('author', author.value);
+    formData.append('thumbnail', thumbnail.value);
+    formData.append('genre', genre.value);
+    formData.append('publishedDate', publishedDate.value);
+
+    let res = await uploadBook(formData)
+    console.log(res)
+
+}
 </script>
