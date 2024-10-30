@@ -45,10 +45,11 @@
                 </div>
             </div>
         </div>
-
+        
         <div v-else>
             Loading..
         </div>
+        {{ route }}
     </NuxtLayout>
 </template>
 
@@ -84,18 +85,18 @@ async function delBook(id: string) {
     useRouter().push('/books')
 }
 
+let route = useRoute().params
 onMounted(async () => {
-    let route = useRoute().params
+    setTimeout(async () => {    
+        let { data } = await useFetch(`/api/book/getbook/${route.id}`);
+    
+        book.value = data.value.msg;
+    
+        title.value = book.value.title
+        author.value = book.value.author
+        publishedDate.value = book.value.publishedDate
 
-    console.log(route.id);
-    let { data } = await useFetch(`/api/book/getbook/${route.id}`);
-
-    console.log(data.value.msg)
-    book.value = data.value.msg;
-
-    title.value = book.value.title
-    author.value = book.value.author
-    publishedDate.value = book.value.publishedDate
+    }, 50) // used this to fix not showing book on page load
 });
 </script>
 

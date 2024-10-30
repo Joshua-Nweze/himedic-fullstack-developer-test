@@ -57,9 +57,9 @@ export const useBookStore = defineStore("book", {
             console.log(1)
             let req = await fetch(`http://localhost:3001/api/book/updatebook/${id}`, {
                 method: "PUT",
-                body: bookData,
+                body: JSON.stringify(bookData),
                 headers: {
-                    "content-type": "application/json"
+                    "Content-Type": "application/json",
                 }
             });
 
