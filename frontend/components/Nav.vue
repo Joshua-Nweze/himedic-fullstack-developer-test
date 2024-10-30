@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="flex justify-end w-1/4">
-            <Button class="bg-slate-100 hidden md:block">Log out</Button>
+            <Button class="bg-slate-100 hidden md:block" @click="logUserOut">Log out</Button>
 
             <div class="block md:hidden">
                 <Sheet>
@@ -22,7 +22,7 @@
                             <NuxtLink to="/books">Books</NuxtLink>
                             <NuxtLink to="/my-books">My Books</NuxtLink>
                             <NuxtLink to="/upload">Upload Book</NuxtLink>
-                            <Button class="bg-slate-100">Log out</Button>
+                            <Button class="bg-slate-100" @click="logUserOut">Log out</Button>
                         </div>
                     </SheetContent>
                 </Sheet>
@@ -34,16 +34,13 @@
 </template>
 
 <script setup lang="ts">
-import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet";
+import { useAuthStore } from '~/store/useAuth';
+let { logout } = useAuthStore()
+
+async function logUserOut() {
+    await logout()
+    useRouter().push('/')
+}
 </script>
 
 <style scoped></style>

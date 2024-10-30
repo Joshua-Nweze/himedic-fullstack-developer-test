@@ -1,19 +1,20 @@
 import { defineStore } from "pinia";
+import Cookies from "js-cookie";
 
 interface UserState {
     user: string | null;
 }
 
 interface User {
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
 }
 
 interface LoginDetails {
-    email: string,
-    password: string
+    email: string;
+    password: string;
 }
 
 export const useAuthStore = defineStore("auth", {
@@ -23,52 +24,53 @@ export const useAuthStore = defineStore("auth", {
 
     actions: {
         async createAccount(userData: User) {
-            let req = await fetch('http://localhost:3001/api/user/create', {
-                method: 'POST',
+            let req = await fetch("http://localhost:3001/api/user/create", {
+                method: "POST",
                 body: JSON.stringify(userData),
                 headers: {
                     "Content-Type": "application/json",
-                }
-            })
-            let res = await req.json()
+                },
+            });
+            let res = await req.json();
 
-            return {msg: res.msg, status: req.status};
+            return { msg: res.msg, status: req.status };
         },
 
         async login(userData: LoginDetails) {
-            let req = await fetch('http://localhost:3001/api/user/login', {
-                method: 'POST',
+            let req = await fetch("http://localhost:3001/api/user/login", {
+                method: "POST",
                 body: JSON.stringify(userData),
                 headers: {
                     "Content-Type": "application/json",
-                }
-            })
-            let res = await req.json()
+                },
+            });
+            let res = await req.json();
 
-            console.log({...res, status: req.status})
-            this.user = res.user
-            return {...res, status: req.status};
+            console.log({ ...res, status: req.status });
+            this.user = res.user;
+            return { ...res, status: req.status };
         },
 
         async validateToken(token: string) {
-            try {
-                console.log(1)
-            console.log(token)
-            let req = await fetch('http://localhost:3001/api/validate-token', {
-                method: 'POST',
+            console.log(1);
+            console.log(token);
+            let req = await fetch("http://localhost:3001/api/validate-token", {
+                method: "POST",
                 headers: {
-                    'Authorization': `Brearer ${token}`
-                }
-            })
+                    Authorization: `Brearer ${token}`,
+                },
+            });
 
-            console.log(2)
+            console.log(2);
 
-            let res = await req.json()
-            console.log(res)
-            return res
-            } catch (error) {
-                console.log(error)
-            }
+            let res = await req.json();
+            console.log(res);
+            return res;
         },
+
+        async logout() {
+            Cookies.remove('token')
+            Cookies.remove('user')
+        }
     },
 });
