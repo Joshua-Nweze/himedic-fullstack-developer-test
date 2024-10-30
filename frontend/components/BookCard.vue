@@ -1,18 +1,17 @@
 <template>
-    <NuxtLink class="border rounded p-3" :to="to">
-        <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*tp2SoFHMNOfWcNqJ" class="h-80" alt="">
-        {{ details }}
-        <div class="font-bold text-lg" >Book name</div>
-        <div>By Author</div>
-        <div>Published on date</div>
-        <div>Genre: date</div>
+    <NuxtLink class="border rounded p-3" :to="`/books/${book[0]._id}`">
+        <img :src="`data:image/png;base64,${book[0]?.thumbnail}`" class="h-80" alt="">
+        <div class="font-bold text-lg" >{{ book[0]?.title }}</div>
+        <div>By {{ book[0]?.author }}</div>
+        <div>Published on {{ book[0]?.publishedDate }}</div>
+        <div>Genre: {{ book[0]?.genre }}</div>
         <div></div>
     </NuxtLink>
 </template>
 
 <script setup lang="ts">
 interface Props {
-    details: string;
+    book: any;
     to?: string;
 }
 
