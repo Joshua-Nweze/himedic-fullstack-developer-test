@@ -23,7 +23,9 @@ let { books } = storeToRefs(useBookStore());
 let { getBooks } = useBookStore();
 
 onMounted(async () => {
-    await getBooks();
+    setTimeout(async () => {
+        await getBooks();
+    }, 50)
 });
 </script>
 
