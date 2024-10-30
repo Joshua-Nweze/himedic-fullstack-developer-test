@@ -25,7 +25,7 @@ export const useBookStore = defineStore("book", {
                 method: "POST",
             });
 
-            this.books = data.value.msg || [];
+            this.books = data?.value || [];
 
             this.loadingBooks = false
         },

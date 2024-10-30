@@ -6,7 +6,10 @@ export default defineEventHandler(async (event) => {
     const apiUrl = "https://himedic-fullstack-developer-test.onrender.com/api/book/getbook";
 
     try {
-        return await fetch(apiUrl);
+        let req =  await fetch(apiUrl);
+        let res = await req.json()
+
+        return res.msg
     } catch (error) {
         console.error(error);
         return { error: "Failed to submit data to the external API" };
