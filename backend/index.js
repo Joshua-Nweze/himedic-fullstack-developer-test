@@ -24,7 +24,6 @@ app.use(cors({
 
 app.use('/api/book', bookRoutes)
 app.use('/api/user', userRoutes)
-// app.put('/api/book/updatebook/:id', (req, res) => { console.log('oh my') })
 
 // validate token
 

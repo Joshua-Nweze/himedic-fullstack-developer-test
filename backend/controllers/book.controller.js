@@ -51,7 +51,6 @@ async function getBookById(req, res) {
 
 async function updateBook(req, res) {
     try {
-        console.log('hit')
         const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (updatedBook) {
             res.status(200).json({ msg: "Book updated", updatedBook })
@@ -80,7 +79,6 @@ async function deleteBook(req, res) {
 async function getUserBooks(req, res) {
     try {
         const userBooks = await Book.find({user: req.params.id});
-        console.log('me' + req.params.id)
         
         res.status(200).json({ msg: userBooks });
     } catch (error) {

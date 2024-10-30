@@ -33,7 +33,6 @@ async function createAccount(req, res) {
         if (error.name === 'ValidationError') {
             res.status(400).json({ msg: getErrorMsg(error.errors) });
         } else {
-            console.log(error)
             res.status(500).json({ msg: "Something went wrong, try again later." });
         }
     }

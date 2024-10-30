@@ -37,7 +37,6 @@ export const useBookStore = defineStore("book", {
             });
 
             let res = await req.json();
-            console.log(res);
 
             this.getMyBooks()
 
@@ -52,13 +51,11 @@ export const useBookStore = defineStore("book", {
             let res = await req.json()
 
             this.myBooks = res.msg
-            console.log(res)
 
             this.loadingMyBooks = false
         },
 
         async updateBook(bookData: any, id: string) {
-            console.log(1)
             let req = await fetch(`https://himedic-fullstack-developer-test.onrender.com/api/book/updatebook/${id}`, {
                 method: "PUT",
                 body: JSON.stringify(bookData),
@@ -80,15 +77,11 @@ export const useBookStore = defineStore("book", {
         },
 
         async deleteBook(id: string) {
-            console.log('deleting')
             let req = await fetch(`https://himedic-fullstack-developer-test.onrender.com/api/book/delete/${id}`, {
                 method: "DELETE",
             });
 
             let res = await req.json();
-            console.log(res);
-            console.log('done')
-
 
             this.getMyBooks()
 

@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-console.log('omd')
 </script>
 
 <style scoped>

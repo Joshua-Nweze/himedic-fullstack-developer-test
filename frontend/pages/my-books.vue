@@ -27,7 +27,6 @@ let { myBooks, loadingMyBooks } = storeToRefs(useBookStore())
 
 onMounted(async () => {
     await bookStore.getMyBooks()
-    myBooks.value?.map(a => console.log(a))
 })
 </script>
 

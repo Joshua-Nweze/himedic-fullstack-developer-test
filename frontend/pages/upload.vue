@@ -105,16 +105,12 @@ async function upload() {
     formData.append('genre', genre.value);
     formData.append('publishedDate', publishedDate.value);
 
-    console.log(formData.entries)
-
     let res = await uploadBook(formData)
-    console.log(res)
     
     loading.value = false
     
     feedback.value = res.msg
     status.value = res.status
-    console.log(feedback.value)
 
     setTimeout(() => {
         feedback.value = status.value = null // hiding the feedback alert

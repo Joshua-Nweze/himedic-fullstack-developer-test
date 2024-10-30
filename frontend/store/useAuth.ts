@@ -46,14 +46,11 @@ export const useAuthStore = defineStore("auth", {
             });
             let res = await req.json();
 
-            console.log({ ...res, status: req.status });
             this.user = res.user;
             return { ...res, status: req.status };
         },
 
         async validateToken(token: string) {
-            console.log(1);
-            console.log(token);
             let req = await fetch("https://himedic-fullstack-developer-test.onrender.com/api/validate-token", {
                 method: "POST",
                 headers: {
@@ -61,10 +58,7 @@ export const useAuthStore = defineStore("auth", {
                 },
             });
 
-            console.log(2);
-
             let res = await req.json();
-            console.log(res);
             return res;
         },
 
