@@ -37,7 +37,8 @@
                             </DialogHeader>
                             
                             <DialogFooter>
-                                <Button class="text-white bg-blue-500" @click="updateMyBook">Save</Button>
+                                <Button class="text-white bg-blue-500" v-if="!updating" @click="updateMyBook">Save</Button>
+                                <Button class="text-white bg-blue-500" v-else>Saving...</Button>
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>
@@ -51,6 +52,10 @@
         
         <div v-else>
             Loading..
+        </div>
+
+        <div class="fixed right-5 bottom-5" v-if="feedback" >
+            <Alert :status>{{ feedback }}</Alert>
         </div>
     </NuxtLayout>
 </template>
@@ -71,14 +76,29 @@ let author = ref<string>()
 let publishedDate = ref<string>()
 
 let id = useRoute().params.id;
+
+let updating = ref<boolean>(false)
+let feedback = ref<string | null>(null)
+let status = ref<number | null>(null)
+
 async function updateMyBook() {
+    updating.value = true
+
     let bookData = {
         title: title.value,
         arthor: author.value,
         publishedDate: publishedDate.value
     }
 
-    await updateBook(bookData, id as string)
+    let res = await updateBook(bookData, id as string)
+
+    updating.value = false
+    feedback.value = res.msg
+    status.value = res.status
+
+    setTimeout(() => {
+        feedback.value = status.value = null // hiding the feedback alert
+    }, 3000)
 }
 
 let isDeleting = ref<boolean>(false)
