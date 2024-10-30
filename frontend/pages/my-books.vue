@@ -3,13 +3,12 @@
         <div class="text-lg md:text-2xl font-bold">My books</div>
 
         <div v-if="!loadingMyBooks">
-            <div v-if="myBooks">
+            <div v-if="myBooks" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
                 <BookCard
-                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-10"
                     v-if="myBooks.length > 0"
                     v-for="(book, index) in myBooks"
                     :key="index"
-                    :book="myBooks"
+                    :book="book"
                 />
                 <div v-else>
                     Nothing to show
@@ -25,8 +24,10 @@ import { useBookStore } from '~/store/useBook';
 let bookStore = useBookStore()
 let { myBooks, loadingMyBooks } = storeToRefs(useBookStore())
 
+
 onMounted(async () => {
     await bookStore.getMyBooks()
+    myBooks.value?.map(a => console.log(a))
 })
 </script>
 

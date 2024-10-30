@@ -8,13 +8,15 @@ interface BookState {
     books: Book[] | null;
     myBooks: Book[] | null;
     loadingMyBooks: boolean
+    loadingBooks: boolean
 }
 
 export const useBookStore = defineStore("book", {
     state: (): BookState => ({
         books: null, // Ensure the state matches the type definition
         myBooks: null,
-        loadingMyBooks: true
+        loadingMyBooks: true,
+        loadingBooks: true
     }),
 
     actions: {
@@ -23,7 +25,9 @@ export const useBookStore = defineStore("book", {
                 method: "POST",
             });
 
-            this.books = data.value || [];
+            this.books = data.value.msg || [];
+
+            this.loadingBooks = false
         },
 
         async uploadBook(bookData: any) {
